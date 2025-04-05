@@ -11,6 +11,9 @@ categories = [
 authors.workspace = true
 readme.workspace = true
 
+[[bin]]
+name = "netzip"
+path = "src/main.rs"
 
 [dependencies]
 clap = { version = "4.5.35", features = ["derive"] }

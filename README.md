@@ -32,10 +32,10 @@ The binary will be available at `./target/release/netzip_cli`.
 ### List Files in a Remote ZIP
 
 ```bash
-netzip_cli list https://example.com/archive.zip
+netzip list https://example.com/archive.zip
 
 # or with the shorter alias
-netzip_cli l https://example.com/archive.zip
+netzip l https://example.com/archive.zip
 ```
 
 This will display a table with file paths, compressed sizes, and uncompressed sizes.
@@ -44,10 +44,10 @@ This will display a table with file paths, compressed sizes, and uncompressed si
 
 ```bash
 # Extract specific files
-netzip_cli extract https://example.com/archive.zip file1.txt file2.txt
+netzip extract https://example.com/archive.zip file1.txt file2.txt
 
 # or with the shorter alias
-netzip_cli x https://example.com/archive.zip file1.txt file2.txt
+netzip x https://example.com/archive.zip file1.txt file2.txt
 ```
 
 ## Library Usage
