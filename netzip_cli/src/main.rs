@@ -15,10 +15,20 @@ struct Args {
 
 #[derive(Subcommand)]
 enum Commands {
+    /// List the files inside a ZIP archive accessible via a URL
     #[command(alias = "l")]
-    List { url: String },
+    List {
+        /// URL of the ZIP archive to list
+        url: String,
+    },
+    /// Extract specific files from a ZIP archive accessible via a URL
     #[command(alias = "x")]
-    Extract { url: String, files: Vec<String> },
+    Extract {
+        /// URL of the ZIP archive to extract from
+        url: String,
+        /// Files to extract from the archive
+        files: Vec<String>,
+    },
 }
 
 #[tokio::main]
