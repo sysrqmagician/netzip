@@ -34,13 +34,16 @@ enum Commands {
 #[tokio::main]
 async fn main() {
     let args = Args::parse();
-    let http_client = reqwest::Client::new();
     let pb = ProgressBar::new_spinner().with_message("Requesting data...");
     pb.enable_steady_tick(Duration::from_millis(100));
 
     match args.command {
-        Commands::Extract { url, files } => {
-            match extract_files_from_zip_url(&url, files, http_client).await {
+        Commands::Extract { url, files } => match RemoteZip::get(&url).await {
+            Err(e) => {
+                pb.finish();
+                eprintln!("{e}");
+            }
+            Ok(zip) => match zip.download_files(files).await {
                 Err(e) => {
                     pb.finish();
                     eprintln!("{e}");
@@ -65,14 +68,14 @@ async fn main() {
                     }
                     pb.finish_with_message(format!("Downloaded {file_count} files."));
                 }
-            }
-        }
-        Commands::List { url } => match extract_listing_from_zip_url(&url, http_client).await {
+            },
+        },
+        Commands::List { url } => match RemoteZip::get(&url).await {
             Err(e) => {
                 pb.finish();
                 eprintln!("{e}");
             }
-            Ok(mut records) => {
+            Ok(mut zip) => {
                 pb.set_message("Processing...");
 
                 let mut table = Table::new();
@@ -85,10 +88,11 @@ async fn main() {
                         Cell::new("Uncompressed Size").add_attribute(comfy_table::Attribute::Bold),
                     ]);
 
-                records.sort_by(|x, y| x.file_name.cmp(&y.file_name));
-                for record in records {
+                zip.records_mut()
+                    .sort_by(|x, y| x.file_name.cmp(&y.file_name));
+                for record in zip.records() {
                     table.add_row(vec![
-                        record.file_name,
+                        record.file_name.clone(),
                         ByteSizeFormatter::format_auto(
                             record.compressed_size as u64,
                             System::Binary,
