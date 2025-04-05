@@ -99,6 +99,7 @@ pub struct LocalFile {
     pub compressed_size: u32,
     pub uncompressed_size: u32,
     pub file_name_length: u16,
+    pub file_name: String,
     pub extra_field_length: u16,
     pub extra_bytes: Option<Vec<u8>>,
 }
@@ -443,12 +444,17 @@ impl LocalFile {
                 file_buf[LFH_UNCOMPRESSED_SIZE_OFFSET + 2],
                 file_buf[LFH_UNCOMPRESSED_SIZE_OFFSET + 3],
             ]),
+            file_name: String::new(),
             file_name_length,
             extra_field_length,
             extra_bytes: None,
         };
 
         let mut current_offset = LFH_FILE_NAME_START;
+        local_file.file_name = String::from_utf8_lossy(
+            &file_buf[current_offset..current_offset + file_name_length as usize],
+        )
+        .into_owned();
         current_offset += file_name_length as usize;
 
         if extra_field_length > 0 {
@@ -575,6 +581,7 @@ mod tests {
         assert_eq!(local_file.crc32, 0x2c335157);
         assert_eq!(local_file.compressed_size, 6);
         assert_eq!(local_file.uncompressed_size, 6);
+        assert_eq!(local_file.file_name, "test.txt");
         assert_eq!(local_file.file_name_length, 8);
         assert_eq!(local_file.extra_field_length, 28);
     }
