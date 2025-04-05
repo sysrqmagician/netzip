@@ -10,6 +10,7 @@ categories = [
 ]
 authors.workspace = true
 readme.workspace = true
+license.workspace = true
 
 [[bin]]
 name = "netzip"
