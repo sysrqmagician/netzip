@@ -4,3 +4,4 @@ members = ["netzip", "netzip_cli", "netzip_parser"]
 package.authors = ["sysrqmagician"]
 package.readme = "README.md"
 package.license = "LGPL-3.0-only"
+package.repository = "https://github.com/sysrqmagician/netzip"
