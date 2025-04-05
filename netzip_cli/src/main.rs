@@ -30,11 +30,38 @@ async fn main() {
     pb.enable_steady_tick(Duration::from_millis(100));
 
     match args.command {
-        Commands::Extract { url, files } => {}
+        Commands::Extract { url, files } => {
+            match extract_files_from_zip_url(&url, files, http_client).await {
+                Err(e) => {
+                    pb.finish();
+                    eprintln!("{e}");
+                }
+                Ok(files) => {
+                    let mut file_count = 0;
+                    for file in files {
+                        pb.set_message(format!("Writing to disk: {}", file.0.file_name));
+                        if let Err(e) = std::fs::write(
+                            &file
+                                .0
+                                .file_name
+                                .split("/")
+                                .last()
+                                .unwrap_or(&file.0.file_name),
+                            file.1,
+                        ) {
+                            eprintln!("Failed writing {} to disk: {e}", file.0.file_name);
+                        } else {
+                            file_count += 1;
+                        }
+                    }
+                    pb.finish_with_message(format!("Downloaded {file_count} files."));
+                }
+            }
+        }
         Commands::List { url } => match extract_listing_from_zip_url(&url, http_client).await {
             Err(e) => {
                 pb.finish();
-                println!("{e}");
+                eprintln!("{e}");
             }
             Ok(mut records) => {
                 pb.set_message("Processing...");
