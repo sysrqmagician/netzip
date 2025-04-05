@@ -7,8 +7,7 @@ use indicatif::ProgressBar;
 use netzip::*;
 
 #[derive(Parser)]
-#[command(author, version, about, long_about = None)]
-#[command(propagate_version = true)]
+#[command(version, about, propagate_version = true)]
 struct Args {
     #[command(subcommand)]
     command: Commands,
