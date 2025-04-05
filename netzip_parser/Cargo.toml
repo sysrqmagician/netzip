@@ -2,6 +2,9 @@
 name = "netzip_parser"
 version = "0.1.0"
 edition = "2024"
+description = "A barebones low-level ZIP parser"
+categories = ["parser-implementations"]
+authors.workspace = true
 
 [dependencies]
 thiserror = "2.0.12"

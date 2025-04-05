@@ -2,6 +2,10 @@
 name = "netzip"
 version = "0.1.0"
 edition = "2024"
+description = "A library for accessing files in remote ZIPs over HTTP without downloading the entire archive"
+categories = ["web-programming::http-client", "compression"]
+authors.workspace = true
+readme.workspace = true
 
 [dependencies]
 bytes = "1.10.1"

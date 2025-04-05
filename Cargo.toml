@@ -1,3 +1,5 @@
 [workspace]
 resolver = "2"
-members = [ "netzip", "netzip_cli","netzip_parser"]
+members = ["netzip", "netzip_cli", "netzip_parser"]
+package.authors = ["sysrqmagician"]
+package.readme = "README.md"

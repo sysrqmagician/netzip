@@ -2,6 +2,15 @@
 name = "netzip_cli"
 version = "0.1.0"
 edition = "2024"
+description = "A CLI tool for efficiently working with remote ZIP files over HTTP without downloading the entire archive"
+categories = [
+    "command-line-utilities",
+    "web-programming::http-client",
+    "compression",
+]
+authors.workspace = true
+readme.workspace = true
+
 
 [dependencies]
 clap = { version = "4.5.35", features = ["derive"] }
