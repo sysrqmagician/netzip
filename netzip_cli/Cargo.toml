@@ -4,3 +4,10 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+clap = { version = "4.5.35", features = ["derive"] }
+indicatif = "0.17.11"
+tokio = { version = "1.44.1", features = ["full"] }
+netzip = { path = "../netzip" }
+reqwest = "0.12.15"
+comfy-table = "7.1.4"
+bittenhumans = "0.1.0"
