@@ -64,17 +64,15 @@ tokio = { version = "1.44.1", features = ["full"] }
 ### Example: List Files in a ZIP
 
 ```rust
-use netzip::extract_listing_from_zip_url;
+use netzip::RemoteZip;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let client = reqwest::Client::new();
     let url = "https://example.com/archive.zip";
+    let zip = RemoteZip::get(url).await?;
 
-    let files = extract_listing_from_zip_url(url, client).await?;
-
-    for file in files {
-        println!("{} - {} bytes", file.file_name, file.uncompressed_size);
+    for record in zip.records() {
+        println!("{} - {} bytes", record.file_name, record.uncompressed_size);
     }
 
     Ok(())
@@ -84,16 +82,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 ### Example: Extract Specific Files
 
 ```rust
-use netzip::extract_files_from_zip_url;
+use netzip::RemoteZip;
 use std::fs;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let client = reqwest::Client::new();
     let url = "https://example.com/archive.zip";
-    let files_to_extract = vec!["file1.txt".to_string(), "file2.txt".to_string()];
+    let zip = RemoteZip::get(url).await?;
 
-    let extracted_files = extract_files_from_zip_url(url, files_to_extract, client).await?;
+    let files_to_extract = vec!["file1.txt".to_string(), "file2.txt".to_string()];
+    let extracted_files = zip.download_files(files_to_extract).await?;
 
     for (file, content) in extracted_files {
         fs::write(&file.file_name, content)?;
