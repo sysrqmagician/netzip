@@ -24,6 +24,17 @@ pub struct RemoteZip {
 }
 
 impl RemoteZip {
+    /// Creates a new RemoteZip instance by fetching and parsing the ZIP directory structure from a remote URL
+    /// using the provided HTTP client.
+    ///
+    /// # Arguments
+    ///
+    /// * `url` - The URL of the remote ZIP file to access
+    /// * `http_client` - The reqwest HTTP client to use for making requests
+    ///
+    /// # Returns
+    ///
+    /// A Result containing either the initialized RemoteZip instance or an Error
     pub async fn get_using(url: &str, http_client: reqwest::Client) -> Result<Self, Error> {
         let min_cde_bytes = ranged_request(
             url,
@@ -68,18 +79,48 @@ impl RemoteZip {
         })
     }
 
+    /// Creates a new RemoteZip instance by fetching and parsing the ZIP directory structure from a remote URL
+    /// using a default HTTP client.
+    ///
+    /// # Arguments
+    ///
+    /// * `url` - The URL of the remote ZIP file to access
+    ///
+    /// # Returns
+    ///
+    /// A Result containing either the initialized RemoteZip instance or an Error
     pub async fn get(url: &str) -> Result<Self, Error> {
         Self::get_using(url, reqwest::Client::new()).await
     }
 
+    /// Returns a reference to the central directory records of the ZIP file.
+    ///
+    /// # Returns
+    ///
+    /// A reference to the vector of CentralDirectoryRecord entries
     pub fn records(&self) -> &Vec<CentralDirectoryRecord> {
         &self.central_directory
     }
 
+    /// Returns a mutable reference to the central directory records of the ZIP file.
+    ///
+    /// # Returns
+    ///
+    /// A mutable reference to the vector of CentralDirectoryRecord entries
     pub fn records_mut(&mut self) -> &mut Vec<CentralDirectoryRecord> {
         &mut self.central_directory
     }
 
+    /// Downloads and decompresses the specified files from the remote ZIP.
+    ///
+    /// # Arguments
+    ///
+    /// * `paths` - A vector of file paths/names to download from the ZIP
+    ///
+    /// # Returns
+    ///
+    /// A Result containing either a vector of tuples with (LocalFile metadata, file contents as bytes)
+    /// or an Error if any file could not be downloaded or decompressed
     pub async fn download_files(
         &self,
         paths: Vec<String>,
