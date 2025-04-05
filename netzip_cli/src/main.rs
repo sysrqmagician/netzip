@@ -87,7 +87,7 @@ async fn main() {
                     ]);
                 }
 
-                pb.finish();
+                pb.finish_and_clear();
                 println!("{table}");
             }
         },
