@@ -89,10 +89,14 @@ async fn main() {
                 for record in records {
                     table.add_row(vec![
                         record.file_name,
-                        ByteSizeFormatter::fit(record.compressed_size as u64, System::Binary)
-                            .format(record.compressed_size as u64),
-                        ByteSizeFormatter::fit(record.uncompressed_size as u64, System::Binary)
-                            .format(record.uncompressed_size as u64),
+                        ByteSizeFormatter::format_auto(
+                            record.compressed_size as u64,
+                            System::Binary,
+                        ),
+                        ByteSizeFormatter::format_auto(
+                            record.uncompressed_size as u64,
+                            System::Binary,
+                        ),
                     ]);
                 }
 

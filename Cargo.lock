@@ -108,9 +108,9 @@ checksum = "5c8214115b7bf84099f1309324e63141d4c5d7cc26862f97a0a857dbefe165bd"
 
 [[package]]
 name = "bittenhumans"
-version = "0.1.0"
+version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "321bdeadc0205c8871480ab61dabb3d7f897fba7fe459ac7fdfbdef067cec9bf"
+checksum = "6d92b489fc5f814c34e8b86b0280cd79d766230119f76291243d2cd81c791238"
 dependencies = [
  "enum-iterator",
 ]
