@@ -1,4 +1,7 @@
 # NetZip
+[![Crates.io](https://img.shields.io/crates/v/netzip)](https://crates.io/netzip)
+![Crates.io](https://img.shields.io/crates/l/netzip)
+[![Docs.rs](https://docs.rs/netzip/badge.svg)](https://docs.rs/netzip)
 
 NetZip is a Rust library and CLI tool that allows you to work with remote ZIP files over HTTP without downloading the entire archive. It uses HTTP range requests to efficiently fetch only the parts of the ZIP file that are needed.
 
