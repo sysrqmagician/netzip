@@ -1,5 +1,5 @@
 # NetZip
-[![Crates.io](https://img.shields.io/crates/v/netzip)](https://crates.io/netzip)
+[![Crates.io](https://img.shields.io/crates/v/netzip)](https://crates.io/crates/netzip)
 ![Crates.io](https://img.shields.io/crates/l/netzip)
 [![Docs.rs](https://docs.rs/netzip/badge.svg)](https://docs.rs/netzip)
 
@@ -8,7 +8,7 @@ NetZip is a Rust library and CLI tool that allows you to work with remote ZIP fi
 ## Features
 
 - 🚀 **Network Efficient** - Download only the parts of the ZIP file you need
-- 📋 **List Files** - View the contents of a remote ZIP file
+- 📋 **List Files** - List the contents of a remote ZIP file
 - 📦 **Extract Files** - Download specific files from a remote ZIP
 - 🧩 **Library & CLI** - Use as a library in your Rust projects or as a command-line tool
 
@@ -105,15 +105,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-## How It Works
+## How netzip fetches data
 
-NetZip uses a three-step process to efficiently access files in a remote ZIP archive:
-
-1. **Fetch End of Central Directory** - First, it downloads just the end of the ZIP file to locate the Central Directory.
+1. **Fetch End of Central Directory** - First, netzip downloads just the end of the ZIP file to locate the Central Directory.
 2. **Download Central Directory** - It then downloads only the Central Directory, which contains metadata about all files in the archive.
-3. **Extract Specific Files** - Finally, it downloads only the parts of the archive that contain the requested files.
-
-This approach minimizes bandwidth usage, making it ideal for working with large ZIP files when you only need specific contents.
+3. **Extract Specific Files** - Finally, it downloads only the parts of the archive that contain the requested files. If necessary, the blob is decompressed.
 
 ## Supported Compression Methods
 
@@ -121,7 +117,7 @@ This approach minimizes bandwidth usage, making it ideal for working with large 
 - Deflate
 - Deflate64
 
-## Project Structure
+## Crates
 
 - **netzip_parser**: Low-level ZIP format parser
 - **netzip**: Main library for HTTP-based ZIP access
